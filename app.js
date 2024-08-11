@@ -1,6 +1,22 @@
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const app = express();
+const morgan = require("morgan");
+const cors = require("cors");
 
-const PORT = 5000;
+app.use(express.json());
 
-app.listen(PORT, ()=> console.log(`App running on port ${PORT}`))
+const postRouter = require("./routes/postRouter");
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+// Routes
+app.use("/api/v1/post", postRouter);
+
+module.exports = app;
