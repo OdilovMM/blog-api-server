@@ -49,6 +49,11 @@ class AuthController {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
   }
+
+  async getUsers(req, res, next) {
+    const data = await AuthService.getUsers();
+    return res.status(StatusCodes.OK).json({ data });
+  }
 }
 
 module.exports = new AuthController();

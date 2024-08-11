@@ -4,11 +4,11 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Post must have a title"],
     },
     body: {
       type: String,
-      required: true,
+      required: [true, "Post must have a body"],
     },
     image: {
       type: String,

@@ -6,7 +6,7 @@ const EmailService = require("./EmailService");
 
 class AuthService {
   async register(name, email, password, mobile) {
-    if (!name || !email || password || !mobile) {
+    if (!name || !email || !password || !mobile) {
       throw new Error("Please provide all your credentials");
     }
     const isExistUser = await User.findOne({ email });
@@ -86,6 +86,10 @@ class AuthService {
     const tokens = TokenService.generateToken({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.refreshToken);
     return { user: userDto, ...tokens };
+  }
+
+  async getUsers() {
+    return await User.find();
   }
 }
 

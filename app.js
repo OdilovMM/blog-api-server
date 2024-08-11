@@ -11,6 +11,7 @@ app.use(express.static("./public"));
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(cookieParser({}));
+app.use(cors());
 
 const postRoutes = require("./routes/postRouter");
 const authRoutes = require("./routes/authRouter");
