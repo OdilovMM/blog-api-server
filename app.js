@@ -3,8 +3,12 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
+
+app.use(express.static("./public"));
 app.use(express.json());
+app.use(fileUpload({}));
 
 const postRouter = require("./routes/postRouter");
 

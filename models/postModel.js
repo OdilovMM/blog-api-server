@@ -9,7 +9,9 @@ var postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: String,
+  image: {
+    type: String,
+  },
 });
 
 //Export the model

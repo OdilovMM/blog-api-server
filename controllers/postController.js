@@ -4,7 +4,7 @@ class PostController {
   async createPost(req, res) {
     try {
       const {} = req.body;
-      const post = await postService.add(req.body);
+      const post = await postService.add(req.body, req.files.image);
       res.status(201).json({ message: "Add new post", post });
     } catch (error) {
       res.status(500).json(error);
