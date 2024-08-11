@@ -3,6 +3,9 @@ const uploadService = require("./uploadService");
 
 class PostService {
   async add(data, image) {
+    if (!data || !image) {
+      throw new Error("All fields must be filled");
+    }
     const filename = uploadService.upload(image);
     const post = await Post.create({ ...data, image: filename });
     return post;
@@ -17,7 +20,7 @@ class PostService {
   async deletePost(id) {
     const isExist = await this.singlePost(id);
     if (!isExist) {
-      throw new Error("Post is not exist");
+      throw new Error("Post is not found related with that ID");
     }
 
     const post = await Post.findByIdAndDelete({ _id: id });
@@ -27,11 +30,11 @@ class PostService {
   async updatePost(data, id) {
     const isExist = await this.singlePost(id);
     if (!isExist) {
-      throw new Error("Post is not exist");
+      throw new Error("Post is not found related with that ID");
     }
     const existPost = await Post.findOne({ _id: id });
     if (!existPost) {
-      throw new Error("Post ID is not exist");
+      throw new Error("Post is not found related with that ID");
     }
     const updatedPost = await Post.findByIdAndUpdate(id, data, {
       new: true,
@@ -42,7 +45,7 @@ class PostService {
   async singlePost(id) {
     const existPost = await Post.findOne({ _id: id });
     if (!existPost) {
-      throw new Error("Post ID is not exist");
+      throw new Error("Post is not found related with that ID");
     }
     const singlePost = await Post.findById(id);
     return singlePost;

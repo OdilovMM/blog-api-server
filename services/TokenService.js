@@ -29,19 +29,11 @@ class TokenService {
   }
 
   validateRefreshToken(token) {
-    try {
-      return jwt.verify(token, process.env.JWT_SECRET_REFRESH);
-    } catch (error) {
-      return null;
-    }
+    return jwt.verify(token, process.env.JWT_SECRET_REFRESH);
   }
 
   validateAccessToken(token) {
-    try {
-      return jwt.verify(token, process.env.JWT_SECRET_ACCESS);
-    } catch (error) {
-      return null;
-    }
+    return jwt.verify(token, process.env.JWT_SECRET_ACCESS);
   }
 
   async findToken(refreshToken) {

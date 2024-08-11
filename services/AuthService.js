@@ -6,13 +6,16 @@ const EmailService = require("./EmailService");
 
 class AuthService {
   async register(name, email, password, mobile) {
+    if (!name || !email || password || !mobile) {
+      throw new Error("Please provide all your credentials");
+    }
     const isExistUser = await User.findOne({ email });
     const isMobileInUser = await User.findOne({ mobile });
     if (isExistUser) {
-      throw new Error("Email already in use, please login to continue");
+      throw new Error("Email already in use!");
     }
     if (isMobileInUser) {
-      throw new Error("Mobile already in use, please use another");
+      throw new Error("Mobile already in use!");
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
@@ -70,12 +73,12 @@ class AuthService {
 
   async refresh(refreshToken) {
     if (!refreshToken) {
-      throw new Error("Bad request");
+      throw new Error("Unauthorized");
     }
     const userPayload = TokenService.validateRefreshToken(refreshToken);
     const tokenDB = await TokenService.findToken(refreshToken);
     if (!userPayload || !tokenDB) {
-      throw new Error("Bad Error");
+      throw new Error("Unauthorized");
     }
     const user = await User.findById(userPayload.id);
     const userDto = new UserDto(user);
