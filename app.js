@@ -11,7 +11,12 @@ app.use(express.static("./public"));
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(cookieParser({}));
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.API_CLIENT,
+  })
+);
 
 const postRoutes = require("./routes/postRouter");
 const authRoutes = require("./routes/authRouter");
